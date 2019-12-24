@@ -1,0 +1,31 @@
+*******[pic start]
+The LCD is currently the display of choice in small devices and is also popular in large-screen TVs. Regular LEDs often form the digits on digital clocks and other electronic devices. OLEDs offer many advantages over both LCDs and LEDs:
+
+1)The plastic, organic layers of an OLED are thinner, lighter and more flexible than the crystalline layers in an LED or LCD.Because the light-emitting layers of an OLED are lighter, the substrate of an OLED can be flexible instead of rigid. OLED substrates can be plastic rather than the glass used for LEDs and LCDs.
+
+2)OLEDs are brighter than LEDs. Because the organic layers of an OLED are much thinner than the corresponding inorganic crystal layers of an LED, the conductive and emissive layers of an OLED can be multi-layered. Also, LEDs and LCDs require glass for support, and glass absorbs some light. OLEDs do not require glass.
+
+3)OLEDs do not require backlighting like LCDs (see How LCDs Work). LCDs work by selectively blocking areas of the backlight to make the images that you see, while OLEDs generate light themselves. Because OLEDs do not require backlighting, they consume much less power than LCDs (most of the LCD power goes to the backlighting). This is especially important for battery-operated devices such as cell phones.
+
+4)OLEDs are easier to produce and can be made to larger sizes. Because OLEDs are essentially plastics, they can be made into large, thin sheets. It is much more difficult to grow and lay down so many liquid crystals.
+
+5)OLEDs have large fields of view, about 170 degrees. Because LCDs work by blocking light, they have an inherent viewing obstacle from certain angles. OLEDs produce their own light, so they have a much wider viewing range.
+
+********[pic ADV 1 ADV 2]
+DISADVANTAGES -
+
+OLED seems to be the perfect technology for all types of displays, but it also has some problems:
+
+1)Lifetime - 
+The major drawback is the limited lifetime of organic materials. This problem still needs to be solved to push OLED technology to be more successful in the future. Blue OLEDs have only a lifetime of around 5,000 hours, when used in flat panel displays, which is much lower than the typical lifetimes of LCDs or plasma displays.While red and green OLED films have longer lifetimes (46,000 to 230,000 hours), blue organics currently have much shorter lifetimes (up to around 14,000 hours) .But there are various experimentations to increase the lifetime, some are reporting that they already reached a lifetime up to 10,000 hours and above.
+BIBLIO-[source: OLED-Info.com]
+
+2)Manufacturing - They're expensive, and might not get cheaper very quickly as manufacturing processes are expensive right now since OLED is a lot tougher to manufacture than LED LCD.
+
+3)Water - Water can easily damage OLEDs.
+
+4) OLED is an immature technology
+While this is hardly the first generation of OLED displays in general, it's still insufficient compared with mature LCD and plasma technologies.
+Two problems facing mainstream OLED production are the relative lifespan of the "blue" pixel, and a relatively low yield. Compared to the red and green pixels, the blue pixel is much less efficient -- with studies saying it is as low as 4 percent while the other two are as high as 20 percent . The blue pixel may also reduce your display's life with older research of the Sony XEL-1 suggesting after only 1,000 hours of use the display had dimmed by 12 percent.
+
+********[pic Disadv]

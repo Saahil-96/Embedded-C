@@ -1,0 +1,67 @@
+#include<avr/io.h>
+#include<util/delay.h>
+#include "lcd.h"
+#include "adc.h"
+
+void main ()
+{int y=0x80;
+ int a=0,b=0,temp;
+ DDRC=0xff;
+ DDRA=0b00000000;
+ lcd_init();
+ adc_init();
+ lcd_cmd(0x01);
+ _delay_ms(10);
+ while(1)
+ {
+  adc_read(0);
+  lcd_cmd(0xcf);
+  lcd_num(ADC);
+   if((ADC>=160)&&(ADC<=180))
+   {a=0;
+    b=0;}
+  else if((ADC>180)&&(ADC<=190))
+   {a=1;}
+  else if((ADC>190)&&(ADC<=205))
+   {a=2;}
+  else if((ADC>205)&&(ADC<=245))
+   {a=3;}
+  else if((ADC>245)&&(ADC<=280))
+   {a=4;}
+  else if((ADC>280)&&(ADC<=350))
+   {a=5;}
+
+   if ((a==1)&&(b!=1))
+   {lcd_cmd(y);
+    lcd_string("A");
+	 _delay_ms(500);
+    y++;
+	b=1;}
+   else if ((a==2)&&(b!=1))
+   {lcd_cmd(y);
+    lcd_string("B");
+	 _delay_ms(500);
+    y++;
+	b=1;}
+   else if ((a==3)&&(b!=1))
+   {lcd_cmd(y);
+    lcd_string("C");
+	 _delay_ms(500);
+	y++;
+	b=1;}
+   else if ((a==4)&&(b!=1))
+   {lcd_cmd(y);
+    lcd_string("D");
+	 _delay_ms(500);
+	y++;
+	b=1;}
+   else if ((a==5)&&(b!=1))
+   {lcd_cmd(y);
+    lcd_string("E");
+	 _delay_ms(500);
+	y++;
+	b=1;}
+  adc_read(1);
+ } 
+}
+

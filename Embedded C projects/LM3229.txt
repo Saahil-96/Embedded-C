@@ -1,0 +1,46 @@
+#define lcd PORTC
+#define C/D 0
+#define WR 1
+#define CE 2
+
+void lcd_cmd(unsigned char ch)
+{
+ unsigned char a = (ch & 0xf0);
+ lcd = a;
+ lcd|=(1<<C/D);
+ lcd&=~(1<<WR);
+ lcd|=(1<<CE);
+ _delay_ms(1);
+ lcd&=~(1<<CE);
+ a = (ch<<4)&(0xf0);
+ lcd = a;
+ lcd|=(1<<C/D);
+ lcd&=~(1<<WR);
+ lcd|=(1<<CE);
+ _delay_ms(1);
+ lcd&=~(1<<CE);  
+}
+
+void lcd_data(unsigned char ch)
+{
+ unsigned char a = (ch & 0xf0);
+ lcd = a;
+ lcd&=~(1<<C/D);
+ lcd&=~(1<<WR);
+ lcd|=(1<<CE);
+ _delay_ms(1);
+ lcd&=~(1<<CE);
+ a = (ch<<4)&(0xf0);
+ lcd = a;
+ lcd&=~(1<<C/D);
+ lcd&=~(1<<WR);
+ lcd|=(1<<CE);
+ _delay_ms(1);
+ lcd&=~(1<<CE);  
+}
+
+void lcd_init()
+{
+ lcd_cmd(0x08);
+ lcd_cmd(0x08);
+}

@@ -1,0 +1,50 @@
+  if ((ADC>=370) && (ADC<=500))
+  { lcd_cmd(y);
+    lcd_string("A");
+    _delay_ms(100);
+    a=ADC; 
+   adc_read(0);
+    while((ADC>=a-5)&&(ADC<=a+5))
+    {
+    lcd_cmd(y);
+    lcd_string("B");
+    lcd_cmd(0xcf);
+    lcd_num(a);
+    _delay_ms(100);}
+     y++;
+     }
+  else if ((ADC>=501) && (ADC<=900))
+  {
+    lcd_cmd(y);
+    lcd_string("B");
+    _delay_ms(100);
+    a=ADC; 
+   adc_read(0);
+    while((ADC>=a-5)&&(ADC<=a+5))
+     {
+      lcd_cmd(y);
+      lcd_string("B");
+      lcd_cmd(0xcf);
+      lcd_num(a);
+      _delay_ms(100);}
+     y++;
+    }
+
+/* if ((ADC>=600) && (ADC<=650))
+ {
+ lcd_cmd(y);
+ lcd_string("C");
+ _delay_ms(500);
+ y++;}
+ if ((ADC>=650) && (ADC<=900))
+ {
+ lcd_cmd(y);
+ lcd_string("D");
+ _delay_ms(500);
+ y++;}
+ if (ADC>=900) 
+ {
+ lcd_cmd(y);
+ lcd_string("E");
+ _delay_ms(500);
+ y++;}*/

@@ -1,0 +1,153 @@
+
+inputtest.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000b0  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  00000104  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  00000124  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   00000086  00000000  00000000  0000013f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 00000059  00000000  00000000  000001c5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000000f8  00000000  00000000  0000021e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  00000318  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    0000008f  00000000  00000000  00000338  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
+  64:	0c 94 56 00 	jmp	0xac	; 0xac <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <main>:
+#include<avr/io.h>
+
+void main()
+{
+  DDRA=0b00000000;
+  6c:	1a ba       	out	0x1a, r1	; 26
+  PORTA=0b00000011;
+  6e:	83 e0       	ldi	r24, 0x03	; 3
+  70:	8b bb       	out	0x1b, r24	; 27
+  DDRC=0b10000001;
+  72:	81 e8       	ldi	r24, 0x81	; 129
+  74:	84 bb       	out	0x14, r24	; 20
+  DDRB=0b11111111;
+  76:	8f ef       	ldi	r24, 0xFF	; 255
+  78:	87 bb       	out	0x17, r24	; 23
+  {
+    a=PINA&(1<<0);
+	b=PINA&(1<<1);
+    if((a!=0) && (b==0))  //if input at pin 0 is high 
+    {
+     PORTB=0b11110000;
+  7a:	60 ef       	ldi	r22, 0xF0	; 240
+     PORTC=0b10000000;
+  7c:	50 e8       	ldi	r21, 0x80	; 128
+     PORTB=0b00000000;
+	 PORTC=0b00000000;
+    }
+	else if((a==0) && (b==0))
+    {
+     PORTB=0b11111111; 
+  7e:	4f ef       	ldi	r20, 0xFF	; 255
+     PORTB=0b11110000;
+     PORTC=0b10000000;
+	}
+	if((a==0) && (b!=0))
+	{
+	 PORTB=0b00001111;
+  80:	3f e0       	ldi	r19, 0x0F	; 15
+     PORTC=0b00000001;
+  82:	21 e0       	ldi	r18, 0x01	; 1
+  DDRC=0b10000001;
+  DDRB=0b11111111;
+  unsigned char a,b;
+  while(1)
+  {
+    a=PINA&(1<<0);
+  84:	89 b3       	in	r24, 0x19	; 25
+	b=PINA&(1<<1);
+  86:	99 b3       	in	r25, 0x19	; 25
+  88:	92 70       	andi	r25, 0x02	; 2
+    if((a!=0) && (b==0))  //if input at pin 0 is high 
+  8a:	80 ff       	sbrs	r24, 0
+  8c:	05 c0       	rjmp	.+10     	; 0x98 <main+0x2c>
+  8e:	99 23       	and	r25, r25
+  90:	41 f4       	brne	.+16     	; 0xa2 <main+0x36>
+    {
+     PORTB=0b11110000;
+  92:	68 bb       	out	0x18, r22	; 24
+     PORTC=0b10000000;
+  94:	55 bb       	out	0x15, r21	; 21
+  96:	f6 cf       	rjmp	.-20     	; 0x84 <main+0x18>
+	}
+	if((a==0) && (b!=0))
+  98:	99 23       	and	r25, r25
+  9a:	29 f0       	breq	.+10     	; 0xa6 <main+0x3a>
+	{
+	 PORTB=0b00001111;
+  9c:	38 bb       	out	0x18, r19	; 24
+     PORTC=0b00000001;
+  9e:	25 bb       	out	0x15, r18	; 21
+  a0:	f1 cf       	rjmp	.-30     	; 0x84 <main+0x18>
+	}
+    else if((a!=0) && (b!=0))
+    {
+     PORTB=0b00000000;
+  a2:	18 ba       	out	0x18, r1	; 24
+  a4:	01 c0       	rjmp	.+2      	; 0xa8 <main+0x3c>
+	 PORTC=0b00000000;
+    }
+	else if((a==0) && (b==0))
+    {
+     PORTB=0b11111111; 
+  a6:	48 bb       	out	0x18, r20	; 24
+	 PORTC=0b00000000;
+  a8:	15 ba       	out	0x15, r1	; 21
+  aa:	ec cf       	rjmp	.-40     	; 0x84 <main+0x18>
+
+000000ac <_exit>:
+  ac:	f8 94       	cli
+
+000000ae <__stop_program>:
+  ae:	ff cf       	rjmp	.-2      	; 0xae <__stop_program>

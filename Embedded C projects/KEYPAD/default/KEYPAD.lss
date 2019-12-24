@@ -1,0 +1,826 @@
+
+KEYPAD.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000410  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000002  00800060  00800060  00000484  2**0
+                  ALLOC
+  2 .debug_aranges 00000020  00000000  00000000  00000484  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 0000006d  00000000  00000000  000004a4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00000568  00000000  00000000  00000511  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000160  00000000  00000000  00000a79  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   00000644  00000000  00000000  00000bd9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000080  00000000  00000000  00001220  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    00000100  00000000  00000000  000012a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000001c0  00000000  00000000  000013a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000048  00000000  00000000  00001560  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 09 01 	call	0x212	; 0x212 <main>
+  74:	0c 94 06 02 	jmp	0x40c	; 0x40c <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <Keypad>:
+int Keypad ()
+{
+unsigned char a,b,c,d;
+ PORTA=0b11101111;
+  7c:	8f ee       	ldi	r24, 0xEF	; 239
+  7e:	8b bb       	out	0x1b, r24	; 27
+ a=PINA&(1<<0);
+  80:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+  82:	89 b3       	in	r24, 0x19	; 25
+ c=PINA&(1<<2);
+  84:	89 b3       	in	r24, 0x19	; 25
+ d=PINA&(1<<3);
+
+
+ if ((d==0))
+  86:	cb 9b       	sbis	0x19, 3	; 25
+  88:	42 c0       	rjmp	.+132    	; 0x10e <Keypad+0x92>
+ { 
+  return(10);
+  }
+
+ if ((c==0))
+  8a:	82 fd       	sbrc	r24, 2
+  8c:	03 c0       	rjmp	.+6      	; 0x94 <Keypad+0x18>
+  8e:	20 e0       	ldi	r18, 0x00	; 0
+  90:	30 e0       	ldi	r19, 0x00	; 0
+  92:	3f c0       	rjmp	.+126    	; 0x112 <Keypad+0x96>
+ { 
+  return(0);
+  }
+
+ PORTA=0b11011111;
+  94:	8f ed       	ldi	r24, 0xDF	; 223
+  96:	8b bb       	out	0x1b, r24	; 27
+ a=PINA&(1<<0);
+  98:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+  9a:	99 b3       	in	r25, 0x19	; 25
+ c=PINA&(1<<2);
+  9c:	89 b3       	in	r24, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+  9e:	cb 99       	sbic	0x19, 3	; 25
+  a0:	03 c0       	rjmp	.+6      	; 0xa8 <Keypad+0x2c>
+  a2:	21 e0       	ldi	r18, 0x01	; 1
+  a4:	30 e0       	ldi	r19, 0x00	; 0
+  a6:	35 c0       	rjmp	.+106    	; 0x112 <Keypad+0x96>
+ { 
+ return(1);
+  }
+ if ((c==0))
+  a8:	82 fd       	sbrc	r24, 2
+  aa:	03 c0       	rjmp	.+6      	; 0xb2 <Keypad+0x36>
+  ac:	22 e0       	ldi	r18, 0x02	; 2
+  ae:	30 e0       	ldi	r19, 0x00	; 0
+  b0:	30 c0       	rjmp	.+96     	; 0x112 <Keypad+0x96>
+ { 
+ return(2);
+  }
+ if ((b==0))
+  b2:	91 fd       	sbrc	r25, 1
+  b4:	03 c0       	rjmp	.+6      	; 0xbc <Keypad+0x40>
+  b6:	23 e0       	ldi	r18, 0x03	; 3
+  b8:	30 e0       	ldi	r19, 0x00	; 0
+  ba:	2b c0       	rjmp	.+86     	; 0x112 <Keypad+0x96>
+ { 
+ return(3);
+  }
+ 	
+ PORTA=0b10111111;
+  bc:	8f eb       	ldi	r24, 0xBF	; 191
+  be:	8b bb       	out	0x1b, r24	; 27
+ a=PINA&(1<<0);
+  c0:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+  c2:	99 b3       	in	r25, 0x19	; 25
+ c=PINA&(1<<2);
+  c4:	89 b3       	in	r24, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+  c6:	cb 99       	sbic	0x19, 3	; 25
+  c8:	03 c0       	rjmp	.+6      	; 0xd0 <Keypad+0x54>
+  ca:	24 e0       	ldi	r18, 0x04	; 4
+  cc:	30 e0       	ldi	r19, 0x00	; 0
+  ce:	21 c0       	rjmp	.+66     	; 0x112 <Keypad+0x96>
+ { 
+ return(4);
+  }
+ if ((c==0))
+  d0:	82 fd       	sbrc	r24, 2
+  d2:	03 c0       	rjmp	.+6      	; 0xda <Keypad+0x5e>
+  d4:	25 e0       	ldi	r18, 0x05	; 5
+  d6:	30 e0       	ldi	r19, 0x00	; 0
+  d8:	1c c0       	rjmp	.+56     	; 0x112 <Keypad+0x96>
+ { 
+ return(5);
+  }
+ if ((b==0))
+  da:	91 fd       	sbrc	r25, 1
+  dc:	03 c0       	rjmp	.+6      	; 0xe4 <Keypad+0x68>
+  de:	26 e0       	ldi	r18, 0x06	; 6
+  e0:	30 e0       	ldi	r19, 0x00	; 0
+  e2:	17 c0       	rjmp	.+46     	; 0x112 <Keypad+0x96>
+ { 
+ return(6);
+  }
+
+ PORTA=0b01111111;
+  e4:	8f e7       	ldi	r24, 0x7F	; 127
+  e6:	8b bb       	out	0x1b, r24	; 27
+ a=PINA&(1<<0);
+  e8:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+  ea:	99 b3       	in	r25, 0x19	; 25
+ c=PINA&(1<<2);
+  ec:	89 b3       	in	r24, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+  ee:	cb 99       	sbic	0x19, 3	; 25
+  f0:	03 c0       	rjmp	.+6      	; 0xf8 <Keypad+0x7c>
+  f2:	27 e0       	ldi	r18, 0x07	; 7
+  f4:	30 e0       	ldi	r19, 0x00	; 0
+  f6:	0d c0       	rjmp	.+26     	; 0x112 <Keypad+0x96>
+ { 
+ return(7);
+  }
+ if ((c==0))
+  f8:	82 fd       	sbrc	r24, 2
+  fa:	03 c0       	rjmp	.+6      	; 0x102 <Keypad+0x86>
+  fc:	28 e0       	ldi	r18, 0x08	; 8
+  fe:	30 e0       	ldi	r19, 0x00	; 0
+ 100:	08 c0       	rjmp	.+16     	; 0x112 <Keypad+0x96>
+ { 
+ return(8);
+  }
+ if ((b==0))
+ 102:	91 fd       	sbrc	r25, 1
+ 104:	03 c0       	rjmp	.+6      	; 0x10c <Keypad+0x90>
+ 106:	29 e0       	ldi	r18, 0x09	; 9
+ 108:	30 e0       	ldi	r19, 0x00	; 0
+ 10a:	03 c0       	rjmp	.+6      	; 0x112 <Keypad+0x96>
+ 10c:	08 95       	ret
+ { 
+ return(9);
+  }
+
+}
+ 10e:	2a e0       	ldi	r18, 0x0A	; 10
+ 110:	30 e0       	ldi	r19, 0x00	; 0
+ 112:	c9 01       	movw	r24, r18
+ 114:	08 95       	ret
+
+00000116 <lcd_cmd>:
+#define rw 1
+#define e 2
+
+void lcd_cmd(unsigned char ch)
+{
+ unsigned char a = (ch & 0xf0);
+ 116:	28 2f       	mov	r18, r24
+ 118:	20 7f       	andi	r18, 0xF0	; 240
+ lcd = a;
+ 11a:	25 bb       	out	0x15, r18	; 21
+ lcd&=~(1<<rs);
+ 11c:	a8 98       	cbi	0x15, 0	; 21
+ lcd&=~(1<<rw);
+ 11e:	a9 98       	cbi	0x15, 1	; 21
+ lcd|=(1<<e);
+ 120:	aa 9a       	sbi	0x15, 2	; 21
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 122:	2a ef       	ldi	r18, 0xFA	; 250
+ 124:	30 e0       	ldi	r19, 0x00	; 0
+ 126:	f9 01       	movw	r30, r18
+ 128:	31 97       	sbiw	r30, 0x01	; 1
+ 12a:	f1 f7       	brne	.-4      	; 0x128 <lcd_cmd+0x12>
+ _delay_ms(1);
+ lcd&=~(1<<e);
+ 12c:	aa 98       	cbi	0x15, 2	; 21
+a = (ch<<4)&(0xf0);
+ 12e:	90 e0       	ldi	r25, 0x00	; 0
+ 130:	44 e0       	ldi	r20, 0x04	; 4
+ 132:	88 0f       	add	r24, r24
+ 134:	99 1f       	adc	r25, r25
+ 136:	4a 95       	dec	r20
+ 138:	e1 f7       	brne	.-8      	; 0x132 <lcd_cmd+0x1c>
+ lcd = a;
+ 13a:	85 bb       	out	0x15, r24	; 21
+ lcd&=~(1<<rs);
+ 13c:	a8 98       	cbi	0x15, 0	; 21
+ lcd&=~(1<<rw);
+ 13e:	a9 98       	cbi	0x15, 1	; 21
+ lcd|=(1<<e);
+ 140:	aa 9a       	sbi	0x15, 2	; 21
+ 142:	c9 01       	movw	r24, r18
+ 144:	01 97       	sbiw	r24, 0x01	; 1
+ 146:	f1 f7       	brne	.-4      	; 0x144 <lcd_cmd+0x2e>
+ _delay_ms(1);
+ lcd&=~(1<<e);
+ 148:	aa 98       	cbi	0x15, 2	; 21
+
+}
+ 14a:	08 95       	ret
+
+0000014c <lcd_data>:
+
+void lcd_data(unsigned char ch)
+{
+unsigned char a = (ch & 0xf0);
+ 14c:	28 2f       	mov	r18, r24
+ 14e:	20 7f       	andi	r18, 0xF0	; 240
+ lcd=a;
+ 150:	25 bb       	out	0x15, r18	; 21
+ lcd|=(1<<rs);
+ 152:	a8 9a       	sbi	0x15, 0	; 21
+ lcd&=~(1<<rw);
+ 154:	a9 98       	cbi	0x15, 1	; 21
+ lcd|=(1<<e);
+ 156:	aa 9a       	sbi	0x15, 2	; 21
+ 158:	2a ef       	ldi	r18, 0xFA	; 250
+ 15a:	30 e0       	ldi	r19, 0x00	; 0
+ 15c:	f9 01       	movw	r30, r18
+ 15e:	31 97       	sbiw	r30, 0x01	; 1
+ 160:	f1 f7       	brne	.-4      	; 0x15e <lcd_data+0x12>
+ _delay_ms(1);
+ lcd&=~(1<<e);
+ 162:	aa 98       	cbi	0x15, 2	; 21
+a = (ch<<4)&(0xf0);
+ 164:	90 e0       	ldi	r25, 0x00	; 0
+ 166:	54 e0       	ldi	r21, 0x04	; 4
+ 168:	88 0f       	add	r24, r24
+ 16a:	99 1f       	adc	r25, r25
+ 16c:	5a 95       	dec	r21
+ 16e:	e1 f7       	brne	.-8      	; 0x168 <lcd_data+0x1c>
+ lcd = a;
+ 170:	85 bb       	out	0x15, r24	; 21
+ lcd|=(1<<rs);
+ 172:	a8 9a       	sbi	0x15, 0	; 21
+ lcd&=~(1<<rw);
+ 174:	a9 98       	cbi	0x15, 1	; 21
+ lcd|=(1<<e);
+ 176:	aa 9a       	sbi	0x15, 2	; 21
+ 178:	c9 01       	movw	r24, r18
+ 17a:	01 97       	sbiw	r24, 0x01	; 1
+ 17c:	f1 f7       	brne	.-4      	; 0x17a <lcd_data+0x2e>
+ _delay_ms(1);
+ lcd&=~(1<<e);
+ 17e:	aa 98       	cbi	0x15, 2	; 21
+
+}
+ 180:	08 95       	ret
+
+00000182 <lcd_init>:
+
+void lcd_init()
+{
+ lcd_cmd(0x02); //reset
+ 182:	82 e0       	ldi	r24, 0x02	; 2
+ 184:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_cmd(0x28); //4bit mode 
+ 188:	88 e2       	ldi	r24, 0x28	; 40
+ 18a:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_cmd(0x0c); //cursor on
+ 18e:	8c e0       	ldi	r24, 0x0C	; 12
+ 190:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_cmd(0x06); //auto increment
+ 194:	86 e0       	ldi	r24, 0x06	; 6
+ 196:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+}
+ 19a:	08 95       	ret
+
+0000019c <lcd_string>:
+
+void lcd_string( unsigned char *str)
+{
+ 19c:	cf 93       	push	r28
+ 19e:	df 93       	push	r29
+ 1a0:	ec 01       	movw	r28, r24
+ 1a2:	02 c0       	rjmp	.+4      	; 0x1a8 <lcd_string+0xc>
+     int i =0;
+     while(str[i]!='\0')
+       {
+              lcd_data(str[i]);
+ 1a4:	0e 94 a6 00 	call	0x14c	; 0x14c <lcd_data>
+}
+
+void lcd_string( unsigned char *str)
+{
+     int i =0;
+     while(str[i]!='\0')
+ 1a8:	89 91       	ld	r24, Y+
+ 1aa:	88 23       	and	r24, r24
+ 1ac:	d9 f7       	brne	.-10     	; 0x1a4 <lcd_string+0x8>
+       {
+              lcd_data(str[i]);
+              i++;
+             
+       }
+}
+ 1ae:	df 91       	pop	r29
+ 1b0:	cf 91       	pop	r28
+ 1b2:	08 95       	ret
+
+000001b4 <lcd_num>:
+
+void lcd_num(unsigned long n)
+{
+ 1b4:	ef 92       	push	r14
+ 1b6:	ff 92       	push	r15
+ 1b8:	0f 93       	push	r16
+ 1ba:	1f 93       	push	r17
+ 1bc:	7b 01       	movw	r14, r22
+ 1be:	8c 01       	movw	r16, r24
+  lcd_cmd(0x04);
+ 1c0:	84 e0       	ldi	r24, 0x04	; 4
+ 1c2:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 1c6:	18 c0       	rjmp	.+48     	; 0x1f8 <lcd_num+0x44>
+   while(n>0)
+ {
+        int a =n%10; 
+        lcd_data(a+48);
+ 1c8:	c8 01       	movw	r24, r16
+ 1ca:	b7 01       	movw	r22, r14
+ 1cc:	2a e0       	ldi	r18, 0x0A	; 10
+ 1ce:	30 e0       	ldi	r19, 0x00	; 0
+ 1d0:	40 e0       	ldi	r20, 0x00	; 0
+ 1d2:	50 e0       	ldi	r21, 0x00	; 0
+ 1d4:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <__udivmodsi4>
+ 1d8:	86 2f       	mov	r24, r22
+ 1da:	80 5d       	subi	r24, 0xD0	; 208
+ 1dc:	0e 94 a6 00 	call	0x14c	; 0x14c <lcd_data>
+        n=n/10;
+ 1e0:	c8 01       	movw	r24, r16
+ 1e2:	b7 01       	movw	r22, r14
+ 1e4:	2a e0       	ldi	r18, 0x0A	; 10
+ 1e6:	30 e0       	ldi	r19, 0x00	; 0
+ 1e8:	40 e0       	ldi	r20, 0x00	; 0
+ 1ea:	50 e0       	ldi	r21, 0x00	; 0
+ 1ec:	0e 94 e4 01 	call	0x3c8	; 0x3c8 <__udivmodsi4>
+ 1f0:	c9 01       	movw	r24, r18
+ 1f2:	da 01       	movw	r26, r20
+ 1f4:	7c 01       	movw	r14, r24
+ 1f6:	8d 01       	movw	r16, r26
+}
+
+void lcd_num(unsigned long n)
+{
+  lcd_cmd(0x04);
+   while(n>0)
+ 1f8:	e1 14       	cp	r14, r1
+ 1fa:	f1 04       	cpc	r15, r1
+ 1fc:	01 05       	cpc	r16, r1
+ 1fe:	11 05       	cpc	r17, r1
+ 200:	19 f7       	brne	.-58     	; 0x1c8 <lcd_num+0x14>
+ {
+        int a =n%10; 
+        lcd_data(a+48);
+        n=n/10;
+ }
+lcd_cmd(0x06);
+ 202:	86 e0       	ldi	r24, 0x06	; 6
+ 204:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+}
+ 208:	1f 91       	pop	r17
+ 20a:	0f 91       	pop	r16
+ 20c:	ff 90       	pop	r15
+ 20e:	ef 90       	pop	r14
+ 210:	08 95       	ret
+
+00000212 <main>:
+#include<util/delay.h>
+#include "keypad.h"
+#include "lcd.h"
+int A;
+void main ()
+{
+ 212:	cf 92       	push	r12
+ 214:	df 92       	push	r13
+ 216:	ef 92       	push	r14
+ 218:	ff 92       	push	r15
+ 21a:	0f 93       	push	r16
+ 21c:	1f 93       	push	r17
+ 21e:	cf 93       	push	r28
+ 220:	df 93       	push	r29
+ DDRA=0b11110000;
+ 222:	80 ef       	ldi	r24, 0xF0	; 240
+ 224:	8a bb       	out	0x1a, r24	; 26
+ DDRC=0b11111111;
+ 226:	8f ef       	ldi	r24, 0xFF	; 255
+ 228:	84 bb       	out	0x14, r24	; 20
+ lcd_init();
+ 22a:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_init>
+ lcd_cmd(0x01);
+ 22e:	81 e0       	ldi	r24, 0x01	; 1
+ 230:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 234:	84 ec       	ldi	r24, 0xC4	; 196
+ 236:	99 e0       	ldi	r25, 0x09	; 9
+ 238:	01 97       	sbiw	r24, 0x01	; 1
+ 23a:	f1 f7       	brne	.-4      	; 0x238 <main+0x26>
+ _delay_ms(10);  
+ while(1)
+{
+unsigned char a,b,c,d;
+ PORTA=0b11101111;
+ 23c:	ff ee       	ldi	r31, 0xEF	; 239
+ 23e:	cf 2e       	mov	r12, r31
+ 240:	c4 ec       	ldi	r28, 0xC4	; 196
+ 242:	d9 e0       	ldi	r29, 0x09	; 9
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ lcd_num(0); 
+ }
+
+ PORTA=0b11011111;
+ 244:	ef ed       	ldi	r30, 0xDF	; 223
+ 246:	ee 2e       	mov	r14, r30
+ _delay_ms(10); 
+  lcd_cmd(0x8f);
+ lcd_num(3);  
+ }
+ 	
+ PORTA=0b10111111;
+ 248:	7f eb       	ldi	r23, 0xBF	; 191
+ 24a:	d7 2e       	mov	r13, r23
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ lcd_num(6);
+  }
+
+ PORTA=0b01111111;
+ 24c:	6f e7       	ldi	r22, 0x7F	; 127
+ 24e:	f6 2e       	mov	r15, r22
+ lcd_cmd(0x01);
+ _delay_ms(10);  
+ while(1)
+{
+unsigned char a,b,c,d;
+ PORTA=0b11101111;
+ 250:	cb ba       	out	0x1b, r12	; 27
+ a=PINA&(1<<0);
+ 252:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+ 254:	89 b3       	in	r24, 0x19	; 25
+ c=PINA&(1<<2);
+ 256:	89 b3       	in	r24, 0x19	; 25
+ d=PINA&(1<<3);
+ 258:	99 b3       	in	r25, 0x19	; 25
+
+ if ((c==0))
+ 25a:	82 fd       	sbrc	r24, 2
+ 25c:	0f c0       	rjmp	.+30     	; 0x27c <main+0x6a>
+ { 
+ lcd_cmd(0x01);
+ 25e:	81 e0       	ldi	r24, 0x01	; 1
+ 260:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 264:	ce 01       	movw	r24, r28
+ 266:	01 97       	sbiw	r24, 0x01	; 1
+ 268:	f1 f7       	brne	.-4      	; 0x266 <main+0x54>
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ 26a:	8f e8       	ldi	r24, 0x8F	; 143
+ 26c:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(0); 
+ 270:	60 e0       	ldi	r22, 0x00	; 0
+ 272:	70 e0       	ldi	r23, 0x00	; 0
+ 274:	80 e0       	ldi	r24, 0x00	; 0
+ 276:	90 e0       	ldi	r25, 0x00	; 0
+ 278:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+ }
+
+ PORTA=0b11011111;
+ 27c:	eb ba       	out	0x1b, r14	; 27
+ a=PINA&(1<<0);
+ 27e:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+ 280:	09 b3       	in	r16, 0x19	; 25
+ c=PINA&(1<<2);
+ 282:	19 b3       	in	r17, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+ 284:	cb 99       	sbic	0x19, 3	; 25
+ 286:	0f c0       	rjmp	.+30     	; 0x2a6 <main+0x94>
+ { 
+ lcd_cmd(0x01);
+ 288:	81 e0       	ldi	r24, 0x01	; 1
+ 28a:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 28e:	ce 01       	movw	r24, r28
+ 290:	01 97       	sbiw	r24, 0x01	; 1
+ 292:	f1 f7       	brne	.-4      	; 0x290 <main+0x7e>
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ 294:	8f e8       	ldi	r24, 0x8F	; 143
+ 296:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(1); 
+ 29a:	61 e0       	ldi	r22, 0x01	; 1
+ 29c:	70 e0       	ldi	r23, 0x00	; 0
+ 29e:	80 e0       	ldi	r24, 0x00	; 0
+ 2a0:	90 e0       	ldi	r25, 0x00	; 0
+ 2a2:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+  }
+ if ((c==0))
+ 2a6:	12 fd       	sbrc	r17, 2
+ 2a8:	0f c0       	rjmp	.+30     	; 0x2c8 <main+0xb6>
+ {
+ lcd_cmd(0x01);
+ 2aa:	81 e0       	ldi	r24, 0x01	; 1
+ 2ac:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 2b0:	ce 01       	movw	r24, r28
+ 2b2:	01 97       	sbiw	r24, 0x01	; 1
+ 2b4:	f1 f7       	brne	.-4      	; 0x2b2 <main+0xa0>
+ _delay_ms(10);  
+  lcd_cmd(0x8f);
+ 2b6:	8f e8       	ldi	r24, 0x8F	; 143
+ 2b8:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(2);  
+ 2bc:	62 e0       	ldi	r22, 0x02	; 2
+ 2be:	70 e0       	ldi	r23, 0x00	; 0
+ 2c0:	80 e0       	ldi	r24, 0x00	; 0
+ 2c2:	90 e0       	ldi	r25, 0x00	; 0
+ 2c4:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+ }
+ if ((b==0))
+ 2c8:	01 fd       	sbrc	r16, 1
+ 2ca:	0f c0       	rjmp	.+30     	; 0x2ea <main+0xd8>
+ { 
+  lcd_cmd(0x01);
+ 2cc:	81 e0       	ldi	r24, 0x01	; 1
+ 2ce:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 2d2:	ce 01       	movw	r24, r28
+ 2d4:	01 97       	sbiw	r24, 0x01	; 1
+ 2d6:	f1 f7       	brne	.-4      	; 0x2d4 <main+0xc2>
+ _delay_ms(10); 
+  lcd_cmd(0x8f);
+ 2d8:	8f e8       	ldi	r24, 0x8F	; 143
+ 2da:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(3);  
+ 2de:	63 e0       	ldi	r22, 0x03	; 3
+ 2e0:	70 e0       	ldi	r23, 0x00	; 0
+ 2e2:	80 e0       	ldi	r24, 0x00	; 0
+ 2e4:	90 e0       	ldi	r25, 0x00	; 0
+ 2e6:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+ }
+ 	
+ PORTA=0b10111111;
+ 2ea:	db ba       	out	0x1b, r13	; 27
+ a=PINA&(1<<0);
+ 2ec:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+ 2ee:	09 b3       	in	r16, 0x19	; 25
+ c=PINA&(1<<2);
+ 2f0:	19 b3       	in	r17, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+ 2f2:	cb 99       	sbic	0x19, 3	; 25
+ 2f4:	0f c0       	rjmp	.+30     	; 0x314 <main+0x102>
+ {
+ lcd_cmd(0x01);
+ 2f6:	81 e0       	ldi	r24, 0x01	; 1
+ 2f8:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 2fc:	ce 01       	movw	r24, r28
+ 2fe:	01 97       	sbiw	r24, 0x01	; 1
+ 300:	f1 f7       	brne	.-4      	; 0x2fe <main+0xec>
+ _delay_ms(10);  
+  lcd_cmd(0x8f);
+ 302:	8f e8       	ldi	r24, 0x8F	; 143
+ 304:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(4);
+ 308:	64 e0       	ldi	r22, 0x04	; 4
+ 30a:	70 e0       	ldi	r23, 0x00	; 0
+ 30c:	80 e0       	ldi	r24, 0x00	; 0
+ 30e:	90 e0       	ldi	r25, 0x00	; 0
+ 310:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+  }
+ if ((c==0))
+ 314:	12 fd       	sbrc	r17, 2
+ 316:	0f c0       	rjmp	.+30     	; 0x336 <main+0x124>
+ { 
+ lcd_cmd(0x01);
+ 318:	81 e0       	ldi	r24, 0x01	; 1
+ 31a:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 31e:	ce 01       	movw	r24, r28
+ 320:	01 97       	sbiw	r24, 0x01	; 1
+ 322:	f1 f7       	brne	.-4      	; 0x320 <main+0x10e>
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ 324:	8f e8       	ldi	r24, 0x8F	; 143
+ 326:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(5);
+ 32a:	65 e0       	ldi	r22, 0x05	; 5
+ 32c:	70 e0       	ldi	r23, 0x00	; 0
+ 32e:	80 e0       	ldi	r24, 0x00	; 0
+ 330:	90 e0       	ldi	r25, 0x00	; 0
+ 332:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+   }
+ if ((b==0))
+ 336:	01 fd       	sbrc	r16, 1
+ 338:	0f c0       	rjmp	.+30     	; 0x358 <main+0x146>
+ { 
+ lcd_cmd(0x01);
+ 33a:	81 e0       	ldi	r24, 0x01	; 1
+ 33c:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 340:	ce 01       	movw	r24, r28
+ 342:	01 97       	sbiw	r24, 0x01	; 1
+ 344:	f1 f7       	brne	.-4      	; 0x342 <main+0x130>
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ 346:	8f e8       	ldi	r24, 0x8F	; 143
+ 348:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(6);
+ 34c:	66 e0       	ldi	r22, 0x06	; 6
+ 34e:	70 e0       	ldi	r23, 0x00	; 0
+ 350:	80 e0       	ldi	r24, 0x00	; 0
+ 352:	90 e0       	ldi	r25, 0x00	; 0
+ 354:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+  }
+
+ PORTA=0b01111111;
+ 358:	fb ba       	out	0x1b, r15	; 27
+ a=PINA&(1<<0);
+ 35a:	89 b3       	in	r24, 0x19	; 25
+ b=PINA&(1<<1);
+ 35c:	09 b3       	in	r16, 0x19	; 25
+ c=PINA&(1<<2);
+ 35e:	19 b3       	in	r17, 0x19	; 25
+ d=PINA&(1<<3);
+
+ if ((d==0))
+ 360:	cb 99       	sbic	0x19, 3	; 25
+ 362:	0f c0       	rjmp	.+30     	; 0x382 <main+0x170>
+ {
+ lcd_cmd(0x01);
+ 364:	81 e0       	ldi	r24, 0x01	; 1
+ 366:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 36a:	ce 01       	movw	r24, r28
+ 36c:	01 97       	sbiw	r24, 0x01	; 1
+ 36e:	f1 f7       	brne	.-4      	; 0x36c <main+0x15a>
+ _delay_ms(10);  
+  lcd_cmd(0x8f);
+ 370:	8f e8       	ldi	r24, 0x8F	; 143
+ 372:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(7); 
+ 376:	67 e0       	ldi	r22, 0x07	; 7
+ 378:	70 e0       	ldi	r23, 0x00	; 0
+ 37a:	80 e0       	ldi	r24, 0x00	; 0
+ 37c:	90 e0       	ldi	r25, 0x00	; 0
+ 37e:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+  }
+ if ((c==0))
+ 382:	12 fd       	sbrc	r17, 2
+ 384:	0f c0       	rjmp	.+30     	; 0x3a4 <main+0x192>
+ { 
+ lcd_cmd(0x01);
+ 386:	81 e0       	ldi	r24, 0x01	; 1
+ 388:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 38c:	ce 01       	movw	r24, r28
+ 38e:	01 97       	sbiw	r24, 0x01	; 1
+ 390:	f1 f7       	brne	.-4      	; 0x38e <main+0x17c>
+ _delay_ms(10); 
+ lcd_cmd(0x8f);
+ 392:	8f e8       	ldi	r24, 0x8F	; 143
+ 394:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(8);
+ 398:	68 e0       	ldi	r22, 0x08	; 8
+ 39a:	70 e0       	ldi	r23, 0x00	; 0
+ 39c:	80 e0       	ldi	r24, 0x00	; 0
+ 39e:	90 e0       	ldi	r25, 0x00	; 0
+ 3a0:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+  }
+ if ((b==0))
+ 3a4:	01 fd       	sbrc	r16, 1
+ 3a6:	54 cf       	rjmp	.-344    	; 0x250 <main+0x3e>
+ { 
+ lcd_cmd(0x01);
+ 3a8:	81 e0       	ldi	r24, 0x01	; 1
+ 3aa:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ 3ae:	ce 01       	movw	r24, r28
+ 3b0:	01 97       	sbiw	r24, 0x01	; 1
+ 3b2:	f1 f7       	brne	.-4      	; 0x3b0 <main+0x19e>
+ _delay_ms(10); 
+  lcd_cmd(0x8f);
+ 3b4:	8f e8       	ldi	r24, 0x8F	; 143
+ 3b6:	0e 94 8b 00 	call	0x116	; 0x116 <lcd_cmd>
+ lcd_num(9);
+ 3ba:	69 e0       	ldi	r22, 0x09	; 9
+ 3bc:	70 e0       	ldi	r23, 0x00	; 0
+ 3be:	80 e0       	ldi	r24, 0x00	; 0
+ 3c0:	90 e0       	ldi	r25, 0x00	; 0
+ 3c2:	0e 94 da 00 	call	0x1b4	; 0x1b4 <lcd_num>
+ 3c6:	44 cf       	rjmp	.-376    	; 0x250 <main+0x3e>
+
+000003c8 <__udivmodsi4>:
+ 3c8:	a1 e2       	ldi	r26, 0x21	; 33
+ 3ca:	1a 2e       	mov	r1, r26
+ 3cc:	aa 1b       	sub	r26, r26
+ 3ce:	bb 1b       	sub	r27, r27
+ 3d0:	fd 01       	movw	r30, r26
+ 3d2:	0d c0       	rjmp	.+26     	; 0x3ee <__udivmodsi4_ep>
+
+000003d4 <__udivmodsi4_loop>:
+ 3d4:	aa 1f       	adc	r26, r26
+ 3d6:	bb 1f       	adc	r27, r27
+ 3d8:	ee 1f       	adc	r30, r30
+ 3da:	ff 1f       	adc	r31, r31
+ 3dc:	a2 17       	cp	r26, r18
+ 3de:	b3 07       	cpc	r27, r19
+ 3e0:	e4 07       	cpc	r30, r20
+ 3e2:	f5 07       	cpc	r31, r21
+ 3e4:	20 f0       	brcs	.+8      	; 0x3ee <__udivmodsi4_ep>
+ 3e6:	a2 1b       	sub	r26, r18
+ 3e8:	b3 0b       	sbc	r27, r19
+ 3ea:	e4 0b       	sbc	r30, r20
+ 3ec:	f5 0b       	sbc	r31, r21
+
+000003ee <__udivmodsi4_ep>:
+ 3ee:	66 1f       	adc	r22, r22
+ 3f0:	77 1f       	adc	r23, r23
+ 3f2:	88 1f       	adc	r24, r24
+ 3f4:	99 1f       	adc	r25, r25
+ 3f6:	1a 94       	dec	r1
+ 3f8:	69 f7       	brne	.-38     	; 0x3d4 <__udivmodsi4_loop>
+ 3fa:	60 95       	com	r22
+ 3fc:	70 95       	com	r23
+ 3fe:	80 95       	com	r24
+ 400:	90 95       	com	r25
+ 402:	9b 01       	movw	r18, r22
+ 404:	ac 01       	movw	r20, r24
+ 406:	bd 01       	movw	r22, r26
+ 408:	cf 01       	movw	r24, r30
+ 40a:	08 95       	ret
+
+0000040c <_exit>:
+ 40c:	f8 94       	cli
+
+0000040e <__stop_program>:
+ 40e:	ff cf       	rjmp	.-2      	; 0x40e <__stop_program>

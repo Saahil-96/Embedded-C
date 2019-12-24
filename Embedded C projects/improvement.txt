@@ -1,0 +1,11 @@
+Organic light emitting diodes (OLEDs) are slowly fighting their way into the display market since there are various reports about improvements in their production, efficiency, and longevity. 
+
+New modeling technique which predicts the color of OLEDs-
+White OLEDs consist of stacked, ultra-thin layers, each emitting its own light color, all together resulting in white light. Up until recently, it was impossible to predict the exact light color produced by a white OLED and manufacturers had to rely on trial and error. Researchers at Eindhoven University of Technology (TU/e), Philips Research, Dresden University of Technology and other institutes have developed a method that allows the color of light produced by a specific OLED design to be predicted with high precision.
+********[pic improv 1]
+
+New manufacturing method saves costs and improves the radiance of the OLED-
+ A group of researchers at the Fraunhofer Institute teamed up with VON ARDENNE Anlagentechnik GmbH to develop new production methods for OLED microdisplays.
+They are developing a technology which allows manufacture of mini-OLED screens without color filters. Color filters are used to suppress two of the three color ranges of an OLED subpixel, but the fact they are an additional layer applied over the OLED, it automatically dims the generated light and allows about 20 percent of the emitted light to be used.
+
+********[pic improv 2]
